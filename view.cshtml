@@ -1,0 +1,96 @@
+@using EleWise.ELMA.Model.Views
+@using EleWise.ELMA.Web.Mvc.Views.ViewItem
+
+@foreach(var noteItem in Model){
+	<br>
+	<div id="item_@noteItem.Item.Id" onclick="showInfo(this.id)" class="separator-blue">[#@noteItem.Item.Id]@noteItem.Item.Name<div class="label @noteItem.Item.Category.Key">@noteItem.Item.Category.Value</div></div>
+	<div class="panelitem" id="container_item_@noteItem.Item.Id" hidden>
+		@noteItem.Item.Text
+		
+		@if(noteItem.Item.RelatedNotes.Count > 0){
+			<hr>
+			<h2>Связанные статьи:</h2>
+			<ul>
+			@foreach(var Refernce in noteItem.Item.RelatedNotes){
+			<li><a href="@Refernce.Link">@Refernce.Name</a></li>
+			}
+			</ul>
+		}
+		<hr>
+		<b>Автор : </b><p>@(noteItem.Item.Author != null ? noteItem.Item.Author.FullName : "")</p>
+		
+	</div>
+
+
+}
+<script>
+	function showInfo(elementid){
+		var container = document.getElementById('container_'+elementid);
+		var buttonPanel = document.getElementById(elementid);
+		if(container.hidden == true){
+			container.hidden = false;
+		} else if (container.hidden == false){
+			container.hidden = true
+		}
+	}
+</script>
+
+<style>
+.list {
+	border: 1px solid black;
+}
+.list th {
+    background: none repeat scroll 0 0 #666666;
+    color: #FFFFFF;
+    padding: 5px;
+    text-align: left;
+}
+.list td {
+    border-bottom: 1px solid #CCCCCC;
+    padding: 3px 5px;
+    vertical-align: middle;
+}
+.code-preview{
+width:100%;
+resize: none;
+height: 600px;
+background-color: #1f2937;
+color: #e5e7eb;
+border-radius:4px;
+width:100%;
+}
+.panelitem{
+background-color: #F7F7F7;
+border: 1px solid gray;
+padding:3px;
+}
+.label{
+text-align:center;
+background-color: #fffbb6;
+display: inline;
+float:right;
+border: 1px black solid;
+padding-left: 7px;
+padding-right: 7px;
+min-width: 7%;
+border-radius: 8px;
+}
+.bug{
+background-color: #ffb6b6;
+}
+.feature{
+background-color: #ffd3b6;
+}
+.crutch{
+background-color: #b6cbff;
+}
+.ready{
+background-color: #b6ffc4;
+}
+.unknown{
+background-color: #d7b6ff;
+}
+.guide{
+background-color: #23fb61;
+}
+</style>
